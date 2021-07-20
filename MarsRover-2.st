@@ -12,50 +12,52 @@ setUp
 	E _ East new.
 	W _ West new.! !
 
-!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/16/2021 22:56:53'!
-test01MarsRoverLogWithoutCommands
-	|marsRover marsRoverLog|
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:13:53'!
+test01MarsRoverLogPositionWithoutCommands
+	|marsRover marsRoverLog log|
 
 	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
-	marsRoverLog _ marsRover getLog.
+	marsRoverLog _ MarsRoverLog logging: #Position.
+	marsRover attach: marsRoverLog.
 	
 	marsRover moveTo: ''.
 	
-	self assert: marsRoverLog size equals: 2.
-	self assert: marsRoverLog includes: 'Position: 5@5'.
-	self assert: marsRoverLog includes: 'Direction: ', N cardinalDirection asString.
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 1.
+	self assert: log includes: '5@5'.
 	
 	
 	
 	! !
 
-!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/16/2021 23:02:01'!
-test02MarsRoverLogWithCommands
-	|marsRover marsRoverLog|
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:14:05'!
+test02MarsRoverLogPositionWithCommands
+	|marsRover marsRoverLog log| 
 
 	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
-	marsRoverLog _ marsRover getLog.
+	marsRoverLog _ MarsRoverLog logging: #Position.
+	marsRover attach: marsRoverLog.
 	
 	marsRover moveTo: 'frbl'.
+	log _ marsRoverLog getLog.
 	
-	self assert: marsRoverLog size equals: 6.
-	self assert: marsRoverLog includes: 'Position: 5@5'.
-	self assert: marsRoverLog includes: 'Direction: ', N cardinalDirection asString.
-	self assert: marsRoverLog includes: 'Position: 5@6'.
-	self assert: marsRoverLog includes: 'Direction: ', E cardinalDirection asString.
-	self assert: marsRoverLog includes: 'Position: 4@6'.
-	self assert: marsRoverLog includes: 'Direction: ', N cardinalDirection asString.
+	self assert: log size equals: 3.
+	self assert: log includes: '5@5'.
+	self assert: log includes: '5@6'.
+	self assert: log includes: '4@6'.
 	
 	
 	
 	! !
 
-!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/16/2021 23:06:06'!
-test03MarsRoverLogWithInvalidCommand
-	|marsRover marsRoverLog|
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:14:21'!
+test03MarsRoverLogPositionWithInvalidCommand
+	|marsRover marsRoverLog log |
 
 	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
-	marsRoverLog _ marsRover getLog.
+	marsRoverLog _ MarsRoverLog logging: #Position.
+	marsRover attach: marsRoverLog.
 	
 	self
 		should: [ marsRover moveTo: 'frbl fbfbfbfbf' ]
@@ -63,13 +65,147 @@ test03MarsRoverLogWithInvalidCommand
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = MarsRover notValidMovementException ].
 	
-	self assert: marsRoverLog size equals: 6.
-	self assert: marsRoverLog includes: 'Position: 5@5'.
-	self assert: marsRoverLog includes: 'Direction: ', N cardinalDirection asString.
-	self assert: marsRoverLog includes: 'Position: 5@6'.
-	self assert: marsRoverLog includes: 'Direction: ', E cardinalDirection asString.
-	self assert: marsRoverLog includes: 'Position: 4@6'.
-	self assert: marsRoverLog includes: 'Direction: ', N cardinalDirection asString.
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 3.
+	self assert: log includes: '5@5'.
+	self assert: log includes: '5@6'.
+	self assert: log includes: '4@6'.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:15:17'!
+test04MarsRoverLogDirectionWithoutCommands
+	|marsRover marsRoverLog log|
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Direction.
+	marsRover attach: marsRoverLog.
+	
+	marsRover moveTo: ''.
+	
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 1.
+	self assert: log includes: N cardinalDirection asString.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:16:33'!
+test05MarsRoverLogDirectionWithCommands
+	|marsRover marsRoverLog log| 
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Direction.
+	marsRover attach: marsRoverLog.
+	
+	marsRover moveTo: 'frbl'.
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 3.
+	self assert: log includes: N cardinalDirection asString.
+	self assert: log includes: E cardinalDirection asString.
+	self assert: log includes: N cardinalDirection asString.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:18:41'!
+test06MarsRoverLogDirectionWithInvalidCommand
+	|marsRover marsRoverLog log |
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Direction.
+	marsRover attach: marsRoverLog.
+	
+	self
+		should: [ marsRover moveTo: 'frbl fbfbfbfbf' ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = MarsRover notValidMovementException ].
+	
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 3.
+	self assert: log includes: N cardinalDirection asString.
+	self assert: log includes: E cardinalDirection asString.
+	self assert: log includes: N cardinalDirection asString.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:19:47'!
+test07MarsRoverLogBothWithoutCommands
+	|marsRover marsRoverLog log|
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Both.
+	marsRover attach: marsRoverLog.
+	
+	marsRover moveTo: ''.
+	
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 2.
+	self assert: log includes: '5@5'.
+	self assert: log includes: N cardinalDirection asString.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:20:20'!
+test08MarsRoverLogBothWithCommands
+	|marsRover marsRoverLog log| 
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Both.
+	marsRover attach: marsRoverLog.
+	
+	marsRover moveTo: 'frbl'.
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 6.
+	self assert: log includes: '5@5'.
+	self assert: log includes: '5@6'.
+	self assert: log includes: '4@6'.
+	self assert: log includes: N cardinalDirection asString.
+	self assert: log includes: E cardinalDirection asString.
+	self assert: log includes: N cardinalDirection asString.
+	
+	
+	
+	! !
+
+!MarsRoverLogTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:20:59'!
+test09MarsRoverLogBothWithInvalidCommand
+	|marsRover marsRoverLog log |
+
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverLog _ MarsRoverLog logging: #Both.
+	marsRover attach: marsRoverLog.
+	
+	self
+		should: [ marsRover moveTo: 'frbl fbfbfbfbf' ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = MarsRover notValidMovementException ].
+	
+	log _ marsRoverLog getLog.
+	
+	self assert: log size equals: 6.
+	self assert: log includes: '5@5'.
+	self assert: log includes: '5@6'.
+	self assert: log includes: '4@6'.
+	self assert: log includes: N cardinalDirection asString.
+	self assert: log includes: E cardinalDirection asString.
+	self assert: log includes: N cardinalDirection asString.
 	
 	
 	
@@ -424,37 +560,120 @@ setUp
 	E _ East new.
 	W _ West new.! !
 
-!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/16/2021 23:14:48'!
-test01MarsRoverWindowWithoutCommands
-	|marsRover marsRoverWindow|
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:34:34'!
+test01MarsRoverWindowPositionWithoutCommands
+	|marsRover marsRoverStatusWindow statusWindow |
 	
 	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
-	marsRoverWindow _ marsRover getWindow.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Position.
+	marsRover attach: marsRoverStatusWindow.
 	
 	marsRover moveTo: ''.
 	
-	self assert: marsRoverWindow includes: 'Position: 5@5'.
-	self assert: marsRoverWindow includes: 'Direction: ', N cardinalDirection asString.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	
+	self assert: statusWindow includes: '5@5'.
 	! !
 
-!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/16/2021 23:19:28'!
-test02MarsRoverWindowWithCommands
-	|marsRover marsRoverWindow|
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:40:42'!
+test02MarsRoverWindowPositionWithCommands
+	|marsRover marsRoverStatusWindow statusWindow |
 	
 	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Position.
+	marsRover attach: marsRoverStatusWindow.
+	
 	marsRover moveTo: 'f'.
-	marsRoverWindow _ marsRover getWindow.
-	self assert: marsRoverWindow includes: 'Position: 5@6'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '5@6'.
 	marsRover moveTo: 'r'.
-	marsRoverWindow _ marsRover getWindow.
-	self assert: marsRoverWindow includes: 'Direction: ', E cardinalDirection asString.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '5@6'.
 	marsRover moveTo: 'b'.
-	marsRoverWindow _ marsRover getWindow.
-	self assert: marsRoverWindow includes: 'Position: 4@6'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '4@6'.
 	marsRover moveTo: 'l'.
-	marsRoverWindow _ marsRover getWindow.
-	self assert: marsRoverWindow includes: 'Direction: ', N cardinalDirection asString.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '4@6'.
 	! !
+
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:35:29'!
+test03MarsRoverWindowDirectionWithoutCommands
+	|marsRover marsRoverStatusWindow statusWindow |
+	
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Direction.
+	marsRover attach: marsRoverStatusWindow.
+	
+	marsRover moveTo: ''.
+	
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	
+	self assert: statusWindow includes: N cardinalDirection asString.
+	! !
+
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:43:57'!
+test04MarsRoverWindowDirectionWithCommands
+	|marsRover marsRoverStatusWindow statusWindow |
+	
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Direction.
+	marsRover attach: marsRoverStatusWindow.
+
+	marsRover moveTo: 'f'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: N cardinalDirection asString.
+	marsRover moveTo: 'r'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: E cardinalDirection asString.
+	marsRover moveTo: 'b'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: E cardinalDirection asString.
+	marsRover moveTo: 'l'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: N cardinalDirection asString.
+	! !
+
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:36:03'!
+test05MarsRoverWindowBothWithoutCommands
+	|marsRover marsRoverStatusWindow statusWindow |
+	
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Both.
+	marsRover attach: marsRoverStatusWindow.
+	
+	marsRover moveTo: ''.
+	
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	
+	self assert: statusWindow includes: '5@5'.
+	self assert: statusWindow includes: N cardinalDirection asString.
+	! !
+
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:46:08'!
+test06MarsRoverWindowBothWithCommands
+	|marsRover marsRoverStatusWindow statusWindow |
+	
+	marsRover _ MarsRover createAt: 5@5 pointingTo: N.
+	marsRoverStatusWindow _ MarsRoverStatusWindow logging: #Both.
+	marsRover attach: marsRoverStatusWindow.
+
+	marsRover moveTo: 'f'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '5@6'.
+	self assert: statusWindow includes: N cardinalDirection asString.
+	marsRover moveTo: 'r'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '5@6'.
+	self assert: statusWindow includes: E cardinalDirection asString.
+	marsRover moveTo: 'b'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '4@6'.
+	self assert: statusWindow includes: E cardinalDirection asString.
+	marsRover moveTo: 'l'.
+	statusWindow _ marsRoverStatusWindow getStatusWindow.
+	self assert: statusWindow includes: '4@6'.
+	self assert: statusWindow includes: N cardinalDirection asString.! !
 
 
 !classDefinition: #CardinalDirection category: 'MarsRover-2'!
@@ -675,12 +894,12 @@ for: aCommand
 
 !classDefinition: #MarsRover category: 'MarsRover-2'!
 Object subclass: #MarsRover
-	instanceVariableNames: 'currentPosition currentCardinalDirection log'
+	instanceVariableNames: 'currentPosition currentCardinalDirection observers'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover-2'!
 
-!MarsRover methodsFor: 'movement' stamp: 'fran 6/30/2021 23:32:35'!
+!MarsRover methodsFor: 'movement' stamp: 'fran 7/19/2021 21:32:47'!
 moveTo: aCommandString
 	|commandString command|
 
@@ -688,7 +907,9 @@ moveTo: aCommandString
 			commandString _ (aCommandString at: atIndex) asString.
 			command _ Commands with: commandString.
 			command move: self.
-	]! !
+	]
+
+	! !
 
 
 !MarsRover methodsFor: 'position' stamp: 'fran 6/28/2021 23:21:03'!
@@ -700,53 +921,52 @@ pointsTo
 	^ currentCardinalDirection.! !
 
 
-!MarsRover methodsFor: 'initialization' stamp: 'fran 7/16/2021 22:52:41'!
+!MarsRover methodsFor: 'initialization' stamp: 'fran 7/19/2021 21:24:14'!
 initializeWith: aPosition pointingTo: aCardinalDirection
 	currentPosition _ aPosition.
 	currentCardinalDirection  _ aCardinalDirection cardinalDirection.
-	log _ OrderedCollection new.
-	log add: 'Position: ', currentPosition asString.
-	log add: 'Direction: ', currentCardinalDirection asString.
+	observers _ OrderedCollection new.
 	! !
 
 
-!MarsRover methodsFor: 'private' stamp: 'fran 7/16/2021 22:49:57'!
+!MarsRover methodsFor: 'private' stamp: 'fran 7/19/2021 21:35:11'!
 moveBackward
 	currentPosition _ currentPosition - currentCardinalDirection.
-	log add: 'Position: ', currentPosition asString.! !
+	self notifyChangeOfPosition.! !
 
-!MarsRover methodsFor: 'private' stamp: 'fran 7/16/2021 22:50:01'!
+!MarsRover methodsFor: 'private' stamp: 'fran 7/19/2021 21:35:26'!
 moveForward
 	currentPosition _ currentPosition + currentCardinalDirection.
-	log add: 'Position: ', currentPosition asString.! !
+	self notifyChangeOfPosition.! !
 
 !MarsRover methodsFor: 'private' stamp: 'fran 6/30/2021 23:04:22'!
 notValidMovement
 	^ self error: MarsRover notValidMovementException.! !
 
-!MarsRover methodsFor: 'private' stamp: 'fran 7/16/2021 23:03:38'!
+!MarsRover methodsFor: 'private' stamp: 'fran 7/19/2021 21:35:35'!
 rotateLeft
 	currentCardinalDirection _ (currentCardinalDirection rotatedBy: (Float pi / 2)) truncated.
-	log add: 'Direction: ', currentCardinalDirection asString.! !
+	self notifyChangeOfDirection.! !
 
-!MarsRover methodsFor: 'private' stamp: 'fran 7/16/2021 23:03:34'!
+!MarsRover methodsFor: 'private' stamp: 'fran 7/19/2021 21:35:42'!
 rotateRight
 	currentCardinalDirection _ (currentCardinalDirection rotatedBy: (3 * Float pi / 2)) truncated.
-	log add: 'Direction: ', currentCardinalDirection asString.! !
+	self notifyChangeOfDirection.! !
 
 
-!MarsRover methodsFor: 'window' stamp: 'fran 7/16/2021 23:14:20'!
-getWindow
-	|window|
-	window _ OrderedCollection new.
-	window add: 'Position: ', currentPosition asString.
-	window add: 'Direction: ', currentCardinalDirection asString.
-	^ window.! !
+!MarsRover methodsFor: 'observable' stamp: 'fran 7/19/2021 23:09:41'!
+attach: anObserver
+	observers add: anObserver.
+	anObserver updatePosition: self.
+	anObserver updateDirection: self.! !
 
+!MarsRover methodsFor: 'observable' stamp: 'fran 7/19/2021 23:09:08'!
+notifyChangeOfDirection
+	observers do: [:anObserver | anObserver updateDirection: self].! !
 
-!MarsRover methodsFor: 'log' stamp: 'fran 7/16/2021 22:47:30'!
-getLog
-	^ log.! !
+!MarsRover methodsFor: 'observable' stamp: 'fran 7/19/2021 23:09:16'!
+notifyChangeOfPosition
+	observers do: [:anObserver | anObserver updatePosition: self].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -762,3 +982,87 @@ createAt: aPosition pointingTo: aCardinalDirection
 !MarsRover class methodsFor: 'error description' stamp: 'fran 6/30/2021 23:03:05'!
 notValidMovementException
 	^ 'The movement is not valid'.! !
+
+
+!classDefinition: #MarsRoverLog category: 'MarsRover-2'!
+Object subclass: #MarsRoverLog
+	instanceVariableNames: 'log logger'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-2'!
+
+!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 21:25:21'!
+getLog
+	^ log.! !
+
+!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 21:07:36'!
+initializeWith: aLogger
+	logger _ aLogger.
+	log _ OrderedCollection new.! !
+
+!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:08:17'!
+updateDirection: aMarsRover
+	(logger = #Direction) ifTrue: [log add: aMarsRover pointsTo asString].
+	(logger = #Both) ifTrue: [log add: aMarsRover pointsTo asString].
+	! !
+
+!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:08:34'!
+updatePosition: aMarsRover
+	(logger = #Position) ifTrue: [log add: aMarsRover isAt asString].
+	(logger = #Both) ifTrue: [log add: aMarsRover isAt asString].
+	! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'MarsRoverLog class' category: 'MarsRover-2'!
+MarsRoverLog class
+	instanceVariableNames: ''!
+
+!MarsRoverLog class methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 21:05:59'!
+logging: aLogger
+	"OJO CON aLogger"
+	^ self new initializeWith: aLogger.! !
+
+
+!classDefinition: #MarsRoverStatusWindow category: 'MarsRover-2'!
+Object subclass: #MarsRoverStatusWindow
+	instanceVariableNames: 'logger currentCardinalPosition currentCardinalDirection'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-2'!
+
+!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:33:34'!
+getStatusWindow
+	|statusWindow|
+	statusWindow _ OrderedCollection new.
+	(logger = #Direction) ifTrue: [statusWindow add: currentCardinalDirection].
+	(logger = #Position) ifTrue: [statusWindow add: currentCardinalPosition].
+	(logger = #Both) ifTrue: [statusWindow add: currentCardinalPosition. statusWindow add: currentCardinalDirection ].
+	^statusWindow
+	! !
+
+!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:33:20'!
+initializeWith: aLogger
+	logger _ aLogger.! !
+
+!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:29:14'!
+updateDirection: aMarsRover
+	(logger = #Direction) ifTrue: [currentCardinalDirection _ aMarsRover pointsTo asString].
+	(logger = #Both) ifTrue: [currentCardinalDirection _ aMarsRover pointsTo asString].! !
+
+!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:29:44'!
+updatePosition: aMarsRover
+	(logger = #Position) ifTrue: [currentCardinalPosition _ aMarsRover isAt asString].
+	(logger = #Both) ifTrue: [currentCardinalPosition _ aMarsRover isAt asString].
+	! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'MarsRoverStatusWindow class' category: 'MarsRover-2'!
+MarsRoverStatusWindow class
+	instanceVariableNames: ''!
+
+!MarsRoverStatusWindow class methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 23:25:11'!
+logging: aLogger
+	"OJO CON aLogger"
+	^ self new initializeWith: aLogger.! !
