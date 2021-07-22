@@ -622,7 +622,7 @@ test05MarsRoverWindowBothWithoutCommands
 	self assert: statusWindow = windowCheck.
 	! !
 
-!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fj 7/22/2021 13:07:38'!
+!MarsRoverWindowTest methodsFor: 'as yet unclassified' stamp: 'fran 7/22/2021 15:24:19'!
 test06MarsRoverWindowBothWithCommands
 	|statusWindow windowCheck |
 	
