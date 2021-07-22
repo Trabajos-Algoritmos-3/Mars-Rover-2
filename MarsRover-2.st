@@ -981,19 +981,21 @@ notifyChangeOfDirection
 	observer do: [:anObserver | anObserver updateDirection: self].! !
 
 
-!MarsRoverDirection methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:54:34'!
-changeDirection: aDirection
-	direction _ aDirection.
-	self notifyChangeOfDirection.! !
-
-!MarsRoverDirection methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:36:45'!
+!MarsRoverDirection methodsFor: 'initialization' stamp: 'fran 7/20/2021 23:36:45'!
 initializeWith: aDirection
 	direction _ aDirection cardinalDirection.
 	observer _ OrderedCollection new.! !
 
-!MarsRoverDirection methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:36:38'!
+
+!MarsRoverDirection methodsFor: 'private' stamp: 'fran 7/20/2021 23:54:34'!
+changeDirection: aDirection
+	direction _ aDirection.
+	self notifyChangeOfDirection.! !
+
+!MarsRoverDirection methodsFor: 'private' stamp: 'fran 7/20/2021 23:36:38'!
 value
 	^ direction.! !
+
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1001,7 +1003,7 @@ value
 MarsRoverDirection class
 	instanceVariableNames: ''!
 
-!MarsRoverDirection class methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:30:46'!
+!MarsRoverDirection class methodsFor: 'instance creation' stamp: 'fran 7/20/2021 23:30:46'!
 pointingTo: aDirection
 	^ self new initializeWith: aDirection.! !
 
@@ -1013,28 +1015,29 @@ Object subclass: #MarsRoverLog
 	poolDictionaries: ''
 	category: 'MarsRover-2'!
 
-!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/19/2021 21:25:21'!
+!MarsRoverLog methodsFor: 'main protocol' stamp: 'fran 7/19/2021 21:25:21'!
 getLog
 	^ log.! !
 
-!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:03:25'!
-initialize
-	log _ OrderedCollection new.! !
-
-!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:50:52'!
+!MarsRoverLog methodsFor: 'main protocol' stamp: 'fran 7/20/2021 23:50:52'!
 update: aMarsRover
 	log add: aMarsRover value asString.
 	! !
 
-!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:52:32'!
+!MarsRoverLog methodsFor: 'main protocol' stamp: 'fran 7/20/2021 23:52:32'!
 updateDirection: aMarsRover
 	log add: aMarsRover value asString.
 	! !
 
-!MarsRoverLog methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:52:26'!
+!MarsRoverLog methodsFor: 'main protocol' stamp: 'fran 7/20/2021 23:52:26'!
 updatePosition: aMarsRover
 	log add: aMarsRover value asString.
 	! !
+
+
+!MarsRoverLog methodsFor: 'initialization' stamp: 'fran 7/20/2021 23:03:25'!
+initialize
+	log _ OrderedCollection new.! !
 
 
 !classDefinition: #MarsRoverPosition category: 'MarsRover-2'!
@@ -1044,19 +1047,20 @@ Object subclass: #MarsRoverPosition
 	poolDictionaries: ''
 	category: 'MarsRover-2'!
 
-!MarsRoverPosition methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:54:08'!
+!MarsRoverPosition methodsFor: 'private' stamp: 'fran 7/20/2021 23:54:08'!
 changePosition: aPosition
 	position _ aPosition.
 	self notifyChangeOfPosition.! !
 
-!MarsRoverPosition methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:30:08'!
+!MarsRoverPosition methodsFor: 'private' stamp: 'fran 7/20/2021 23:35:54'!
+value
+	^ position.! !
+
+
+!MarsRoverPosition methodsFor: 'initialization' stamp: 'fran 7/20/2021 23:30:08'!
 initializeWith: aPosition
 	position _ aPosition.
 	observer _ OrderedCollection new.! !
-
-!MarsRoverPosition methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:35:54'!
-value
-	^ position.! !
 
 
 !MarsRoverPosition methodsFor: 'observable' stamp: 'fran 7/20/2021 23:47:30'!
@@ -1073,7 +1077,7 @@ notifyChangeOfPosition
 MarsRoverPosition class
 	instanceVariableNames: ''!
 
-!MarsRoverPosition class methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:29:29'!
+!MarsRoverPosition class methodsFor: 'instance creation' stamp: 'fran 7/20/2021 23:29:29'!
 createAt: aPosition
 	^ self new initializeWith: aPosition.! !
 
@@ -1085,7 +1089,7 @@ Object subclass: #MarsRoverStatusWindow
 	poolDictionaries: ''
 	category: 'MarsRover-2'!
 
-!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/21/2021 00:05:59'!
+!MarsRoverStatusWindow methodsFor: 'main protocol' stamp: 'fran 7/21/2021 00:05:59'!
 getStatusWindow
 	|statusWindow|
 	statusWindow _ OrderedCollection new.
@@ -1094,16 +1098,17 @@ getStatusWindow
 	^statusWindow
 	! !
 
-!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/21/2021 00:09:56'!
-initialize
-	currentCardinalPosition _ nil.
-	currentCardinalDirection _ nil.! !
-
-!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:51:35'!
+!MarsRoverStatusWindow methodsFor: 'main protocol' stamp: 'fran 7/20/2021 23:51:35'!
 updateDirection: aMarsRover
 	currentCardinalDirection _ aMarsRover value asString.! !
 
-!MarsRoverStatusWindow methodsFor: 'as yet unclassified' stamp: 'fran 7/20/2021 23:51:57'!
+!MarsRoverStatusWindow methodsFor: 'main protocol' stamp: 'fran 7/20/2021 23:51:57'!
 updatePosition: aMarsRover
 	currentCardinalPosition _ aMarsRover value asString
 	! !
+
+
+!MarsRoverStatusWindow methodsFor: 'initialization' stamp: 'fran 7/21/2021 00:09:56'!
+initialize
+	currentCardinalPosition _ nil.
+	currentCardinalDirection _ nil.! !
